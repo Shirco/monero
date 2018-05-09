@@ -372,17 +372,17 @@ namespace nodetool
     if (nettype == cryptonote::TESTNET)
     {
       full_addrs.insert("34.241.253.9:17236");
-      full_addrs.insert("34.245.228.193:17236");
+      full_addrs.insert("54.246.150.192:17236");
     }
     else if (nettype == cryptonote::STAGENET)
     {
       full_addrs.insert("34.241.253.9:17236");
-      full_addrs.insert("34.245.228.193:17236");
+      full_addrs.insert("54.246.150.192:17236");
     }
     else
     {
       full_addrs.insert("34.241.253.9:17236");
-      full_addrs.insert("34.245.228.193:17236");
+      full_addrs.insert("54.246.150.192:17236");
     }
     return full_addrs;
   }
