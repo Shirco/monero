@@ -56,6 +56,18 @@ using namespace epee;
 
 namespace daemonize {
 
+void print_genesis_tx_hex() {
+  Logging::ConsoleLogger logger;
+  CryptoNote::Transaction tx = CryptoNote::CurrencyBuilder(logger).generateGenesisTransaction();
+  CryptoNote::BinaryArray txb = CryptoNote::toBinaryArray(tx);
+  std::string tx_hex = Common::toHex(txb);
+
+  std::cout << "Insert this line into your coin configuration file as is: " << std::endl;
+  std::cout << "const char GENESIS_COINBASE_TX_HEX[] = \"" << tx_hex << "\";" << std::endl;
+
+  return;
+}
+
 struct t_internals {
 private:
   t_protocol protocol;
@@ -80,6 +92,11 @@ public:
     const auto restricted = command_line::get_arg(vm, cryptonote::core_rpc_server::arg_restricted_rpc);
     const auto main_rpc_port = command_line::get_arg(vm, cryptonote::core_rpc_server::arg_rpc_bind_port);
     rpcs.emplace_back(new t_rpc{vm, core, p2p, restricted, testnet ? cryptonote::TESTNET : stagenet ? cryptonote::STAGENET : cryptonote::MAINNET, main_rpc_port, "core"});
+
+    if (command_line::get_arg(vm, arg_print_genesis_tx)) {
+      print_genesis_tx_hex();
+      return false;
+    }
 
     auto restricted_rpc_port_arg = cryptonote::core_rpc_server::arg_rpc_restricted_bind_port;
     if(!command_line::is_arg_defaulted(vm, restricted_rpc_port_arg))
